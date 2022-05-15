@@ -6,12 +6,11 @@ import thlearn
 
 
 def linear(X_orig, y, m):
-    # linear model
+
     X = np.concatenate((np.ones((m, 1)), X_orig), axis=1)
     Theta = np.zeros(X[0].shape)
 
     J_theta, Theta = thlearn.grad_decent(X, y, Theta)
-    # plot_result(X, y, Theta, J_theta)
     plt.plot(J_theta)
     plt.title("J_Theta (email classification)")
     plt.show()
@@ -81,7 +80,7 @@ def main():
     y = data[:, 2]
 
     m = y.size
-    # linear(X_orig, y, m)
+    linear(X_orig, y, m)
     # conclusion:
     print("INFO: THE DATA SET IS NOT LINEARLY SEPARABLE")
 

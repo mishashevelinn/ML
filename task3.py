@@ -97,7 +97,7 @@ def one_vs_all_classification(X_sub, y_sub):
 
         J_theta_i, Thetas[class_i] = thlearn.grad_decent(X_sub, y_class_i, Thetas[class_i], Lambda=1)
         J_theta.append(J_theta_i)
-    # plot_data(X_sub, y_sub, Thetas=Thetas, title='one vs all logistic regression classification') //TODO uncomment
+    plot_data(X_sub, y_sub, Thetas=Thetas, title='one vs all logistic regression classification')
     return Thetas
 
 
@@ -112,7 +112,7 @@ def score_model(H_theta, y):
     hypothesis_hits_3 = (np.sum([y[np.where(H_theta[:, 2] >= 0)] == 2])
                          + np.sum([y[np.where(H_theta[:, 2] <= 0)] <= 1])) / y.shape[0]
 
-    accuracy = (hypothesis_hits_0 + hypothesis_hits_1 + hypothesis_hits_3)/3
+    accuracy = (hypothesis_hits_0 + hypothesis_hits_1 + hypothesis_hits_3) / 3
 
     return accuracy
 
@@ -124,7 +124,7 @@ def main():
 
     ######################PLOTTING TRAINING DATA SET  ###################
     X_sub, y_sub = choose_and_plot_subset(X, y, plot=False, stage=TRAIN)
-    # X_sub = thlearn.normalize(X_sub)
+    X_sub = thlearn.normalize(X_sub)
     #####################################################################
 
     #####################LEARNING ON TRAINING DATA SET###################
@@ -148,24 +148,17 @@ def main():
 
     ######APPLTYING THE MODEL FOR OTHER FEATURES################
     X_sepal = iris.data[:, :2]
-    X_sepal = np.c_[np.ones(X_sepal.shape[0]), X_sepal]
     y = np.array(iris.target)
     y = np.atleast_2d(y).T
 
     Thetas_sepal = one_vs_all_classification(X_sepal, y)
     Thetas_sepal = np.array(Thetas_sepal).reshape(3, -1)
 
+    X_sepal = np.c_[np.ones(X_sepal.shape[0]), X_sepal]
     H_theta_sepal = np.dot(X_sepal, Thetas_sepal)
 
     score_sepal = score_model(H_theta_sepal, y)
     print(f'accuracy = {np.around(score_sepal, decimals=3)}')
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
